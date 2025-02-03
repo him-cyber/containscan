@@ -1,0 +1,7 @@
+# Ignore AWS files
+aws/
+awscliv2-zip/
+
+# Ignore AWS credentials
+~/.aws/
+~/.aws/credentials

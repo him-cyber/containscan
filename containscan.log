@@ -1,0 +1,15 @@
+{"level":"INFO","timestamp":"2025-02-01T22:49:30-05:00","message":"ContainScan started successfully!"}
+{"level":"WARNING","timestamp":"2025-02-01T22:49:30-05:00","message":"Potential issue detected"}
+{"level":"ERROR","timestamp":"2025-02-01T22:49:30-05:00","message":"Critical failure occurred!"}
+{"level":"INFO","timestamp":"2025-02-01T22:50:03-05:00","message":"ContainScan started successfully!"}
+{"level":"WARNING","timestamp":"2025-02-01T22:50:03-05:00","message":"Potential issue detected"}
+{"level":"ERROR","timestamp":"2025-02-01T22:50:03-05:00","message":"critical failure occurred"}
+{"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-01T23:16:01-05:00"}
+{"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-01T23:16:02-05:00"}
+{"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-01T23:16:02-05:00"}
+{"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-01T23:19:19-05:00"}
+{"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-01T23:19:19-05:00"}
+{"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-01T23:19:19-05:00"}
+{"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-01T23:23:41-05:00"}
+{"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-01T23:23:41-05:00"}
+{"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-01T23:23:41-05:00"}
