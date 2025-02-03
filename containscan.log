@@ -13,3 +13,15 @@
 {"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-01T23:23:41-05:00"}
 {"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-01T23:23:41-05:00"}
 {"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-01T23:23:41-05:00"}
+{"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-03T06:57:16-05:00"}
+{"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-03T06:57:17-05:00"}
+{"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-03T06:57:17-05:00"}
+{"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-03T07:00:12-05:00"}
+{"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-03T07:00:12-05:00"}
+{"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-03T07:00:13-05:00"}
+{"level":"INFO","message":"ContainScan started successfully!","timestamp":"2025-02-03T07:00:31-05:00"}
+{"level":"WARNING","message":"Potential issue detected","timestamp":"2025-02-03T07:00:31-05:00"}
+{"level":"ERROR","message":"critical failure occurred","timestamp":"2025-02-03T07:00:31-05:00"}
+{"level":"INFO","local_time":"2025-02-03T07:07:00-05:00","message":"ContainScan started successfully!","utc_time":"2025-02-03T12:07:00Z"}
+{"level":"WARNING","local_time":"2025-02-03T07:07:00-05:00","message":"Potential issue detected","utc_time":"2025-02-03T12:07:00Z"}
+{"level":"ERROR","local_time":"2025-02-03T07:07:00-05:00","message":"critical failure occurred","utc_time":"2025-02-03T12:07:00Z"}

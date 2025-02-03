@@ -41,18 +41,18 @@ func init() {
 	dynamoClient = dynamodb.NewFromConfig(cfg)
 }
 
-// 🔹 Function to log structured JSON messages
 func logJSON(level, message string) {
 	entry := map[string]string{
-		"level":     level,
-		"timestamp": time.Now().Format(time.RFC3339),
-		"message":   message,
+		"level":      level,
+		"utc_time":   time.Now().UTC().Format(time.RFC3339),   // ✅ UTC for AWS & analytics
+		"local_time": time.Now().Local().Format(time.RFC3339), // ✅ Local time for readability
+		"message":    message,
 	}
 
 	jsonLog, _ := json.Marshal(entry)
-	logger.Println(string(jsonLog)) // ✅ Now `logger` is recognized
+	logger.Println(string(jsonLog)) // Write to local log file
 
-	putItemToDynamoDB(entry)
+	putItemToDynamoDB(entry) // Send to AWS DynamoDB
 }
 
 // 🔹 Send logs to DynamoDB

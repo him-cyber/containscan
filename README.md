@@ -1,2 +1,14 @@
-# containscan
-An open-source tool built in Go to automate container vulnerability detection and secure Docker environments. It integrates with AWS DynamoDB for centralized storage and leverages Docker APIs for real-time scanning and reporting. Designed to help developers and security professionals streamline container security in cloud-native infrastructures.
+# ContainScan
+**A Go-based container security tool for detecting vulnerabilities in Docker environments.**  
+
+## Features
+- Automated vulnerability scanning for containerized applications  
+- Structured logging in JSON format with AWS DynamoDB integration  
+- Real-time security alerts (Planned for future versions)  
+
+## Installation
+1. **Clone the repository:**  
+   ```bash
+   git clone https://github.com/himaneesh/containscan.git
+   cd containscan
+
