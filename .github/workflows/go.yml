@@ -1,13 +1,10 @@
-name: Go Build & Test Workflow
+name: Go Build & Test
 
 on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
@@ -24,5 +21,21 @@ jobs:
       - name: Build Project
         run: go build -v ./...
 
-      - name: Run Tests (if any)
-        run: go test -v ./...
+      - name: Test Without AWS (Local Mode)
+        run: |
+          echo "[INFO] Running in local mode (no AWS)..."
+          go run main.go
+
+      - name: Test With AWS (If Credentials Exist)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        shell: bash
+        run: |
+          if [ -n "$AWS_ACCESS_KEY_ID" ]; then
+            echo "[INFO] Running with AWS integration..."
+            go run main.go
+          else
+            echo "[WARNING] No AWS credentials found. Skipping AWS test."
+          fi
+

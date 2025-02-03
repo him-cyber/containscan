@@ -15,14 +15,15 @@ import (
 	"github.com/google/uuid"
 )
 
-// 🔹 Define logger at the package level (so all functions can access it)
+// Global logger
 var logger *log.Logger
 
-// 🔹 AWS DynamoDB client
+// AWS DynamoDB client (optional)
 var dynamoClient *dynamodb.Client
+var awsEnabled bool
 
 func init() {
-	// 🔹 Initialize logger BEFORE anything else
+	// Open local log file
 	file, err := os.OpenFile("containscan.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println("[ERROR] Failed to open log file, defaulting to console output")
@@ -31,39 +32,57 @@ func init() {
 		logger = log.New(file, "", 0)
 	}
 
-	// 🔹 Setup AWS SDK config
-	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-east-2"))
-	if err != nil {
-		logger.Fatal("Unable to load AWS SDK config: ", err)
-	}
+	// Check if AWS credentials exist
+	_, awsKeyExists := os.LookupEnv("AWS_ACCESS_KEY_ID")
+	_, awsSecretExists := os.LookupEnv("AWS_SECRET_ACCESS_KEY")
 
-	// 🔹 Create DynamoDB client
-	dynamoClient = dynamodb.NewFromConfig(cfg)
+	if awsKeyExists && awsSecretExists {
+		// Load AWS Config
+		cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-east-1"))
+		if err != nil {
+			fmt.Println("[WARNING] AWS credentials found but could not initialize AWS SDK. Running in local mode.")
+			awsEnabled = false
+			return
+		}
+
+		// Initialize DynamoDB Client
+		dynamoClient = dynamodb.NewFromConfig(cfg)
+		awsEnabled = true
+		fmt.Println("[INFO] AWS logging enabled.")
+	} else {
+		fmt.Println("[INFO] No AWS credentials found. Running in local mode.")
+		awsEnabled = false
+	}
 }
 
+// Log function with optional AWS storage
 func logJSON(level, message string) {
 	entry := map[string]string{
 		"level":      level,
-		"utc_time":   time.Now().UTC().Format(time.RFC3339),   // ✅ UTC for AWS & analytics
-		"local_time": time.Now().Local().Format(time.RFC3339), // ✅ Local time for readability
+		"utc_time":   time.Now().UTC().Format(time.RFC3339),
+		"local_time": time.Now().Local().Format(time.RFC3339),
 		"message":    message,
 	}
 
 	jsonLog, _ := json.Marshal(entry)
 	logger.Println(string(jsonLog)) // Write to local log file
 
-	putItemToDynamoDB(entry) // Send to AWS DynamoDB
+	// Store in AWS if enabled
+	if awsEnabled {
+		putItemToDynamoDB(entry)
+	}
 }
 
-// 🔹 Send logs to DynamoDB
+// Store logs in AWS DynamoDB
 func putItemToDynamoDB(entry map[string]string) {
 	_, err := dynamoClient.PutItem(context.TODO(), &dynamodb.PutItemInput{
 		TableName: aws.String("ContainScanLogs"),
 		Item: map[string]types.AttributeValue{
-			"log_id":    &types.AttributeValueMemberS{Value: uuid.New().String()},
-			"level":     &types.AttributeValueMemberS{Value: entry["level"]},
-			"timestamp": &types.AttributeValueMemberS{Value: entry["timestamp"]},
-			"message":   &types.AttributeValueMemberS{Value: entry["message"]},
+			"log_id":     &types.AttributeValueMemberS{Value: uuid.New().String()},
+			"level":      &types.AttributeValueMemberS{Value: entry["level"]},
+			"utc_time":   &types.AttributeValueMemberS{Value: entry["utc_time"]},
+			"local_time": &types.AttributeValueMemberS{Value: entry["local_time"]},
+			"message":    &types.AttributeValueMemberS{Value: entry["message"]},
 		},
 	})
 	if err != nil {
@@ -71,7 +90,7 @@ func putItemToDynamoDB(entry map[string]string) {
 	}
 }
 
-// 🔹 Public logging functions
+// Public logging functions
 func Info(message string) {
 	logJSON("INFO", message)
 }
