@@ -22,13 +22,22 @@ var snsTopicArn string
 var awsEnabled bool
 
 func init() {
-	// Open local log file
-	file, err := os.OpenFile("containscan.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Println("[ERROR] Failed to open log file, using console output")
+	// Check if running in AWS Lambda
+	isLambda := os.Getenv("AWS_LAMBDA_FUNCTION_NAME") != ""
+
+	if isLambda {
+		// In AWS Lambda, logs are automatically sent to CloudWatch
 		logger = log.New(os.Stdout, "", 0)
+		fmt.Println("[INFO] Running inside AWS Lambda, using CloudWatch logging.")
 	} else {
-		logger = log.New(file, "", 0)
+		// Open local log file
+		file, err := os.OpenFile("containscan.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			fmt.Println("[ERROR] Failed to open log file, using console output")
+			logger = log.New(os.Stdout, "", 0)
+		} else {
+			logger = log.New(file, "", 0)
+		}
 	}
 
 	// Get AWS region from environment (default to us-east-1)
@@ -75,7 +84,7 @@ func logJSON(level, message string) {
 	}
 
 	jsonLog, _ := json.Marshal(entry)
-	logger.Println(string(jsonLog)) // Write to local log file
+	logger.Println(string(jsonLog)) // Write to appropriate log destination
 
 	// Send alert for ERROR logs
 	if level == "ERROR" && awsEnabled {
