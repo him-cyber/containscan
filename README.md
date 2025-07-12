@@ -23,7 +23,7 @@ By default, ContainScan runs in **local mode** and logs to `containscan.log`. If
 
 :
 
-### 📌 Project Status
+## Project Status
 
 This project is currently **paused**.
 
