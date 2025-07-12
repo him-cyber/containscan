@@ -1,3 +1,4 @@
+// prototype complete — paused for re-evaluation
 package main
 
 import (

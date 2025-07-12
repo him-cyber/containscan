@@ -21,3 +21,11 @@ By default, ContainScan runs in **local mode** and logs to `containscan.log`. If
    git clone https://github.com/him-cyber/containscan.git
    cd containscan
 
+:
+
+### 📌 Project Status
+
+This project is currently **paused**.
+
+**Reason:** While building ContainScan was an insightful exercise in event-driven security tooling, I’ve decided to pause development to reevaluate its direction. AWS already provides native tools for container scanning and event automation, and this prototype helped me better understand those workflows. Going forward, I may pivot this into a more focused or unique security automation use case.
+
